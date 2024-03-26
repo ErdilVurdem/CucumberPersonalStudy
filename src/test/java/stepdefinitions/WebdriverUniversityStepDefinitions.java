@@ -20,9 +20,11 @@ public class WebdriverUniversityStepDefinitions {
     public void login_portal_a_kadar_asagi_inin() {
         ilkWH=Driver.getDriver().getWindowHandle();
 
-        JavascriptExecutor javascriptExecutor =(JavascriptExecutor) Driver.getDriver();
-        javascriptExecutor.executeScript("window.scrollBy(0,200)");
+        //JavascriptExecutor javascriptExecutor =(JavascriptExecutor) Driver.getDriver();
+        //javascriptExecutor.executeScript("window.scrollBy(0,200)");
 
+       //ReusableMethods.elementeKaydirma(webdriverUniversityPage.loginPortalButton);
+        ReusableMethods.sayfayiIstenilenKadarKaydirma(0,400);
     }
     @Then("Login Portal'a tiklar")
     public void login_portal_a_tiklar() {

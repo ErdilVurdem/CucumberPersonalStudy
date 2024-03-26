@@ -7,7 +7,6 @@ Feature: US1016 Kullanici yeni kayit olusturur
     And user sign up linkine tiklar
     And user Create an account bolumune email adresi girer
     And signUp butonuna basar
-    And user kisisel bilgilerini ve iletisim bilgilerini girer
-    And user Create Account butonuna basar
+    And Enter account informations and click create account button
     Then hesap olustugunu test eder
     And sayfayi kapatir

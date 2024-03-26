@@ -20,7 +20,7 @@ public class DemoQaStepDefinitons {
     @Then("Alerts’e tiklar")
     public void alerts_e_tiklar() {
         JavascriptExecutor javascriptExecutor =(JavascriptExecutor) Driver.getDriver();
-        javascriptExecutor.executeScript("window.scrollBy(0,200)");
+        javascriptExecutor.executeScript("window.scrollBy(0,400)");
         ReusableMethods.bekle(1);
         demoQaPage.leftMenuAlertsButton.click();
     }

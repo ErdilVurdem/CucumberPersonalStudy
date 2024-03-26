@@ -1,10 +1,8 @@
 package utilities;
 
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import pages.DemoQaPage;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 public class ReusableMethods {
+
 
     public static void bekle(int saniye){
 
@@ -164,4 +163,21 @@ public class ReusableMethods {
         FileUtils.copyFile(source, finalDestination);
         return target;
     }
+
+    public static void elementeKaydirma(WebElement element){
+        JavascriptExecutor jse=(JavascriptExecutor) Driver.getDriver();
+        jse.executeScript("arguments[0].scrollIntoView();",element);
+        bekle(2);
+    }
+
+    public static void sayfayiIstenilenKadarKaydirma(int yatay,int dikey){
+        JavascriptExecutor javascriptExecutor =(JavascriptExecutor) Driver.getDriver();
+        javascriptExecutor.executeScript("window.scrollBy("+yatay+","+dikey+")");
+    }
+
+    public static void loginInAEPage(WebElement emailBox,String email,WebElement passwordBox, String password){
+        emailBox.sendKeys(email);
+        passwordBox.sendKeys(password);
+    }
+
 }

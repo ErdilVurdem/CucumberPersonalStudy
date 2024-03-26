@@ -1,10 +1,18 @@
 package pages;
 
+import com.github.javafaker.Faker;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import stepdefinitions.AutomationExerciseStepDefinitions;
+import utilities.ConfigReader;
 import utilities.Driver;
+import utilities.ReusableMethods;
+
+import static org.junit.Assert.assertTrue;
 
 public class AutomationExercisePage {
 
@@ -82,6 +90,169 @@ public class AutomationExercisePage {
 
     @FindBy (xpath = "//*[text()=' Logout']")
     public WebElement homePageLogoutButton;
+
+    public void accessSignInPageMethod(String navigateUrl){
+        Driver.getDriver().get(ConfigReader.getProperty(navigateUrl));
+        assertTrue(featuresItemsText.isDisplayed());
+        mainPageSignUpButton.click();
+        assertTrue(loginToYourAccountText.isDisplayed());
+    }
+
+    public  void newUserSignUpMethod(String name,String email){
+        signUpNameBox.sendKeys(name);
+        signUpEmailBox.sendKeys(email);
+        signUpButton.click();
+        assertTrue(enterAccountInformationText.isDisplayed());
+    }
+
+    Faker faker=new Faker();
+    Actions actions=new Actions(Driver.getDriver());
+    String name=faker.name().firstName();
+    String email=faker.internet().emailAddress();
+
+    String password=faker.internet().password();
+
+    public void setNewUserSignUpEnterInfoMethod(){
+        mrRadioButton.click();
+        actions.sendKeys(Keys.TAB)
+                .sendKeys(Keys.TAB)
+                .sendKeys(password)
+                .sendKeys(Keys.TAB)
+                .sendKeys("18")
+                .sendKeys(Keys.TAB)
+                .sendKeys("March")
+                .sendKeys(Keys.TAB)
+                .sendKeys("2001")
+                .sendKeys(Keys.TAB)
+                .sendKeys(Keys.TAB)
+                .sendKeys(Keys.TAB)
+                .sendKeys(name)
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.name().lastName())
+                .sendKeys(Keys.TAB)
+                .sendKeys("-")
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.address().fullAddress())
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.address().fullAddress())
+                .sendKeys(Keys.TAB)
+                .sendKeys("United States")
+                .sendKeys(Keys.TAB)
+                .sendKeys("Viginia")
+                .sendKeys(Keys.TAB)
+                .sendKeys("Norfolk")
+                .sendKeys(Keys.TAB)
+                .sendKeys("06000")
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.phoneNumber().cellPhone())
+                .sendKeys(Keys.TAB).perform();
+        newsletterButton.click();
+        specialOfferButton.click();
+        firstNameBox.sendKeys(name);
+        actions.sendKeys(Keys.TAB)
+                .sendKeys(faker.name().lastName())
+                .sendKeys(Keys.TAB)
+                .sendKeys("-")
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.address().fullAddress())
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.address().fullAddress())
+                .sendKeys(Keys.TAB)
+                .sendKeys("United States")
+                .sendKeys(Keys.TAB)
+                .sendKeys("Viginia")
+                .sendKeys(Keys.TAB)
+                .sendKeys("Norfolk")
+                .sendKeys(Keys.TAB)
+                .sendKeys("06000")
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.phoneNumber().cellPhone())
+                .sendKeys(Keys.TAB).perform();
+        createAccountButton.click();
+    }
+
+    public void verifyAccontCreatedAndLoginMethod(){
+        assertTrue(accountCreatedText.isDisplayed());
+        accountCreatedDeletedPageContinueButton.click();
+        assertTrue(deleteAccountButton.isDisplayed());
+    }
+    public void deleteAccountMethod(){
+        deleteAccountButton.click();
+        assertTrue(accountDeletedText.isDisplayed());
+        accountCreatedDeletedPageContinueButton.click();
+    }
+    public void newUserSignUpEnterInfoMethodForMahmut(){
+        mrRadioButton.click();
+        actions.sendKeys(Keys.TAB)
+                .sendKeys(Keys.TAB)
+                .sendKeys(ConfigReader.getProperty("aeValidPassword"))
+                .sendKeys(Keys.TAB)
+                .sendKeys("18")
+                .sendKeys(Keys.TAB)
+                .sendKeys("March")
+                .sendKeys(Keys.TAB)
+                .sendKeys("2001")
+                .sendKeys(Keys.TAB)
+                .sendKeys(Keys.TAB)
+                .sendKeys(Keys.TAB)
+                .sendKeys(name)
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.name().lastName())
+                .sendKeys(Keys.TAB)
+                .sendKeys("-")
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.address().fullAddress())
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.address().fullAddress())
+                .sendKeys(Keys.TAB)
+                .sendKeys("United States")
+                .sendKeys(Keys.TAB)
+                .sendKeys("Viginia")
+                .sendKeys(Keys.TAB)
+                .sendKeys("Norfolk")
+                .sendKeys(Keys.TAB)
+                .sendKeys("06000")
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.phoneNumber().cellPhone())
+                .sendKeys(Keys.TAB).perform();
+        newsletterButton.click();
+        specialOfferButton.click();
+        firstNameBox.sendKeys(name);
+        actions.sendKeys(Keys.TAB)
+                .sendKeys(faker.name().lastName())
+                .sendKeys(Keys.TAB)
+                .sendKeys("-")
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.address().fullAddress())
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.address().fullAddress())
+                .sendKeys(Keys.TAB)
+                .sendKeys("United States")
+                .sendKeys(Keys.TAB)
+                .sendKeys("Viginia")
+                .sendKeys(Keys.TAB)
+                .sendKeys("Norfolk")
+                .sendKeys(Keys.TAB)
+                .sendKeys("06000")
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.phoneNumber().cellPhone())
+                .sendKeys(Keys.TAB).perform();
+        createAccountButton.click();
+        accountCreatedDeletedPageContinueButton.click();
+    }
+
+    public void loginWithValidInfo(){
+        ReusableMethods.loginInAEPage(loginEmailBox,ConfigReader.getProperty("aeValidEmail"),
+                                loginPasswordBox,ConfigReader.getProperty("aeValidPassword"));
+        loginLoginButton.click();
+        assertTrue(registeredUserLogged.isDisplayed());
+    }
+    public void loginWithInValidInfo(){
+        ReusableMethods.loginInAEPage(loginEmailBox,ConfigReader.getProperty("aeInvalidEmail"),
+                loginPasswordBox,ConfigReader.getProperty("aeInvalidPassword"));
+        loginLoginButton.click();
+    }
+
 
 
 }

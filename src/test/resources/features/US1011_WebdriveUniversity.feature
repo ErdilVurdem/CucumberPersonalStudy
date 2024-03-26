@@ -4,6 +4,7 @@ Feature: US1011 sayfaya login olunabilmeli
   Scenario: US1011 sayfaya login olunabilmeli ve login olunduğu doğrulabilmeli
   When kullanici "webUniUrl" anasayfaya gider
   Then Login Portal'a kadar asagi inin
+  And 2 saniye bekler 
   And Login Portal'a tiklar
   And Diger window'a gecer
   Then username kutusuna deger yazdirir
