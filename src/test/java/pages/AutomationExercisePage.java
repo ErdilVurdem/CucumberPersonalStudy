@@ -12,7 +12,9 @@ import utilities.ConfigReader;
 import utilities.Driver;
 import utilities.ReusableMethods;
 
-import static org.junit.Assert.assertTrue;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class AutomationExercisePage {
 
@@ -91,9 +93,36 @@ public class AutomationExercisePage {
     @FindBy (xpath = "//*[text()=' Logout']")
     public WebElement homePageLogoutButton;
 
-    public void accessSignInPageMethod(String navigateUrl){
+    @FindBy (xpath = "//*[@data-qa='name']")
+    public WebElement contactUsNameBox;
+
+    @FindBy (xpath = "//*[@name='upload_file']")
+    public WebElement contactUsUpoadImageButton;
+
+    @FindBy (xpath = "//*[@name='submit']")
+    public WebElement contactUsSubmitButton;
+
+    @FindBy (xpath = "//*[@class='btn btn-success']")
+    public WebElement contactUsHomeButton;
+
+    @FindBy (xpath = "(//*[@class='fa fa-plus-square'])[1]")
+    public WebElement productsFirstElementViewProductButton;
+
+    @FindBy (id = "search_product")
+    public WebElement productsSearchBox;
+
+    @FindBy (id = "submit_search")
+    public WebElement productSearchButton;
+
+    @FindBy (xpath = "//*[@class='product-image-wrapper']")
+    public List<WebElement> searchedProductsList;
+
+    public void accessHomePageMethod(String navigateUrl){
         Driver.getDriver().get(ConfigReader.getProperty(navigateUrl));
         assertTrue(featuresItemsText.isDisplayed());
+    }
+
+    public void accessSignInPageMethod(){
         mainPageSignUpButton.click();
         assertTrue(loginToYourAccountText.isDisplayed());
     }
@@ -252,6 +281,63 @@ public class AutomationExercisePage {
                 loginPasswordBox,ConfigReader.getProperty("aeInvalidPassword"));
         loginLoginButton.click();
     }
+    public void existEmailErrorMethod(String existEmail, String textToVerify){
+        signUpNameBox.sendKeys(faker.name().firstName());
+        signUpEmailBox.sendKeys(ConfigReader.getProperty(existEmail));
+        signUpButton.click();
+        ReusableMethods.findElementWithTextAndVerifyDisplaying(textToVerify);
+    }
+
+    public void clickAndVerifyTextMethod(String elementText, String verifyText){
+        ReusableMethods.findElementWithTextAndClick(elementText);
+        ReusableMethods.findElementWithTextAndVerifyDisplaying(verifyText);
+    }
+    public void clickHomeAndVerifyPageMethod(String pageTitle){
+        contactUsHomeButton.click();
+        ReusableMethods.bekle(5);
+        assertEquals(ConfigReader.getProperty(pageTitle),Driver.getDriver().getTitle());
+    }
+    public void clickAndVerifyPageMethod(String buttonName,String urlName){
+        ReusableMethods.findElementWithTextAndClick(buttonName);
+        assertEquals(ConfigReader.getProperty(urlName),Driver.getDriver().getCurrentUrl());
+    }
+
+    public void fillContactUsForm(String imageName){
+        contactUsNameBox.sendKeys(faker.name().firstName());
+        actions.sendKeys(Keys.TAB)
+                .sendKeys(faker.internet().emailAddress())
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.date().birthday().toString())
+                .sendKeys(Keys.TAB)
+                .sendKeys(faker.backToTheFuture().quote()).perform();
+        ReusableMethods.sayfayiIstenilenKadarKaydirma(0,200);
+        ReusableMethods.uploadImageMethod(imageName,contactUsUpoadImageButton);
+        contactUsSubmitButton.click();
+        Driver.getDriver().switchTo().alert().accept();
+    }
+    public void verifyAndClickMethod(String textToVerify, String textToClick){
+        ReusableMethods.findElementWithTextAndVerifyDisplaying(textToVerify);
+        ReusableMethods.findElementWithTextAndClick(textToClick);
+    }
+
+    public void searchPorductMethod(String textToSearch){
+        productsSearchBox.sendKeys(textToSearch);
+        productSearchButton.click();
+        ReusableMethods.findElementWithTextAndVerifyDisplaying("Searched Products");
+    }
+
+    public void isListVisible(List<WebElement> list){
+        boolean flag=true;
+        for (int i = 0; i <list.size() ; i++) {
+            if (!list.get(i).isDisplayed()){
+                flag=false;
+            }
+        }
+        assertTrue(flag);
+    }
+
+
+
 
 
 

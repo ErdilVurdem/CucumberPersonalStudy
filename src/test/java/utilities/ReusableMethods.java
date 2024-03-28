@@ -1,6 +1,7 @@
 package utilities;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.Assert;
 import org.openqa.selenium.*;
 import pages.DemoQaPage;
 
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
+import static org.junit.Assert.assertTrue;
 
 public class ReusableMethods {
 
@@ -178,6 +181,19 @@ public class ReusableMethods {
     public static void loginInAEPage(WebElement emailBox,String email,WebElement passwordBox, String password){
         emailBox.sendKeys(email);
         passwordBox.sendKeys(password);
+    }
+
+    public static void findElementWithTextAndClick(String text){
+        Driver.getDriver().findElement(By.xpath("//*[text()='"+text+"']")).click();
+    }
+    public static void findElementWithTextAndVerifyDisplaying(String text){
+        WebElement element=Driver.getDriver().findElement(By.xpath("//*[text()='"+text+"']"));
+        assertTrue(element.isDisplayed());
+    }
+
+    public static void uploadImageMethod(String imageName, WebElement element){
+        String dosyaYolu=System.getProperty("user.home")+"/Downloads/"+imageName+".png";
+        element.sendKeys(dosyaYolu);
     }
 
 }
